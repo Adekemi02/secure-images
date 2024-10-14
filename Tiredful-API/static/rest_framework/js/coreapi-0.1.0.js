@@ -1,19 +1,19 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.coreapi = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{let g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.coreapi = f()}})(function(){let define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){let a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);let f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}let l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){let n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}let i=typeof require=="function"&&require;for(let o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var BasicAuthentication = function () {
+let BasicAuthentication = function () {
   function BasicAuthentication() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, BasicAuthentication);
 
-    var username = options.username;
-    var password = options.password;
-    var hash = window.btoa(username + ':' + password);
+    let username = options.username;
+    let password = options.password;
+    let hash = window.btoa(username + ':' + password);
     this.auth = 'Basic ' + hash;
   }
 
@@ -35,9 +35,9 @@ module.exports = {
 },{}],2:[function(require,module,exports){
 'use strict';
 
-var basic = require('./basic');
-var session = require('./session');
-var token = require('./token');
+let basic = require('./basic');
+let session = require('./session');
+let token = require('./token');
 
 module.exports = {
   BasicAuthentication: basic.BasicAuthentication,
@@ -48,22 +48,22 @@ module.exports = {
 },{"./basic":1,"./session":3,"./token":4}],3:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var utils = require('../utils');
+let utils = require('../utils');
 
 function trim(str) {
-  return str.replace(/^\s+|\s+$/g, '');
+  return str.slice(str.search(/\S/), str.search(/\S\s*$/) + 1);
 }
 
 function getCookie(cookieName, cookieString) {
   cookieString = cookieString || window.document.cookie;
   if (cookieString && cookieString !== '') {
-    var cookies = cookieString.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = trim(cookies[i]);
+    let cookies = cookieString.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = trim(cookies[i]);
       // Does this cookie string begin with the name we want?
       if (cookie.substring(0, cookieName.length + 1) === cookieName + '=') {
         return decodeURIComponent(cookie.substring(cookieName.length + 1));
@@ -73,9 +73,9 @@ function getCookie(cookieName, cookieString) {
   return null;
 }
 
-var SessionAuthentication = function () {
+let SessionAuthentication = function () {
   function SessionAuthentication() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, SessionAuthentication);
 
@@ -104,13 +104,13 @@ module.exports = {
 },{"../utils":15}],4:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var TokenAuthentication = function () {
+let TokenAuthentication = function () {
   function TokenAuthentication() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, TokenAuthentication);
 
@@ -136,24 +136,24 @@ module.exports = {
 },{}],5:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var document = require('./document');
-var codecs = require('./codecs');
-var errors = require('./errors');
-var transports = require('./transports');
-var utils = require('./utils');
+let document = require('./document');
+let codecs = require('./codecs');
+let errors = require('./errors');
+let transports = require('./transports');
+let utils = require('./utils');
 
 function lookupLink(node, keys) {
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  let _iteratorNormalCompletion = true;
+  let _didIteratorError = false;
+  let _iteratorError = undefined;
 
   try {
-    for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var key = _step.value;
+    for (let _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      let key = _step.value;
 
       if (node instanceof document.Document) {
         node = node.content[key];
@@ -185,13 +185,13 @@ function lookupLink(node, keys) {
   return node;
 }
 
-var Client = function () {
+let Client = function () {
   function Client() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, Client);
 
-    var transportOptions = {
+    let transportOptions = {
       auth: options.auth || null,
       headers: options.headers || {},
       requestCallback: options.requestCallback,
@@ -205,17 +205,17 @@ var Client = function () {
   _createClass(Client, [{
     key: 'action',
     value: function action(document, keys) {
-      var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      let params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-      var link = lookupLink(document, keys);
-      var transport = utils.determineTransport(this.transports, link.url);
+      let link = lookupLink(document, keys);
+      let transport = utils.determineTransport(this.transports, link.url);
       return transport.action(link, this.decoders, params);
     }
   }, {
     key: 'get',
     value: function get(url) {
-      var link = new document.Link(url, 'get');
-      var transport = utils.determineTransport(this.transports, url);
+      let link = new document.Link(url, 'get');
+      let transport = utils.determineTransport(this.transports, url);
       return transport.action(link, this.decoders);
     }
   }]);
@@ -230,14 +230,14 @@ module.exports = {
 },{"./codecs":7,"./document":10,"./errors":11,"./transports":14,"./utils":15}],6:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+let _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var document = require('../document');
-var URL = require('url-parse');
+let document = require('../document');
+let URL = require('url-parse');
 
 function unescapeKey(key) {
   if (key.match(/__(type|meta)$/)) {
@@ -247,7 +247,7 @@ function unescapeKey(key) {
 }
 
 function getString(obj, key) {
-  var value = obj[key];
+  let value = obj[key];
   if (typeof value === 'string') {
     return value;
   }
@@ -255,7 +255,7 @@ function getString(obj, key) {
 }
 
 function getBoolean(obj, key) {
-  var value = obj[key];
+  let value = obj[key];
   if (typeof value === 'boolean') {
     return value;
   }
@@ -263,7 +263,7 @@ function getBoolean(obj, key) {
 }
 
 function getObject(obj, key) {
-  var value = obj[key];
+  let value = obj[key];
   if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
     return value;
   }
@@ -271,7 +271,7 @@ function getObject(obj, key) {
 }
 
 function getArray(obj, key) {
-  var value = obj[key];
+  let value = obj[key];
   if (value instanceof Array) {
     return value;
   }
@@ -279,12 +279,12 @@ function getArray(obj, key) {
 }
 
 function getContent(data, baseUrl) {
-  var excluded = ['_type', '_meta'];
-  var content = {};
-  for (var property in data) {
+  let excluded = ['_type', '_meta'];
+  let content = {};
+  for (let property in data) {
     if (data.hasOwnProperty(property) && !excluded.includes(property)) {
-      var key = unescapeKey(property);
-      var value = primitiveToNode(data[property], baseUrl);
+      let key = unescapeKey(property);
+      let value = primitiveToNode(data[property], baseUrl);
       content[key] = value;
     }
   }
@@ -292,40 +292,40 @@ function getContent(data, baseUrl) {
 }
 
 function primitiveToNode(data, baseUrl) {
-  var isObject = data instanceof Object && !(data instanceof Array);
+  let isObject = data instanceof Object && !(data instanceof Array);
 
   if (isObject && data._type === 'document') {
     // Document
-    var meta = getObject(data, '_meta');
-    var relativeUrl = getString(meta, 'url');
-    var url = relativeUrl ? URL(relativeUrl, baseUrl).toString() : '';
-    var title = getString(meta, 'title');
-    var description = getString(meta, 'description');
-    var content = getContent(data, url);
+    let meta = getObject(data, '_meta');
+    let relativeUrl = getString(meta, 'url');
+    let url = relativeUrl ? URL(relativeUrl, baseUrl).toString() : '';
+    let title = getString(meta, 'title');
+    let description = getString(meta, 'description');
+    let content = getContent(data, url);
     return new document.Document(url, title, description, content);
   } else if (isObject && data._type === 'link') {
     // Link
-    var _relativeUrl = getString(data, 'url');
-    var _url = _relativeUrl ? URL(_relativeUrl, baseUrl).toString() : '';
-    var method = getString(data, 'action') || 'get';
-    var _title = getString(data, 'title');
-    var _description = getString(data, 'description');
-    var fieldsData = getArray(data, 'fields');
-    var fields = [];
-    for (var idx = 0, len = fieldsData.length; idx < len; idx++) {
-      var value = fieldsData[idx];
-      var name = getString(value, 'name');
-      var required = getBoolean(value, 'required');
-      var location = getString(value, 'location');
-      var fieldDescription = getString(value, 'fieldDescription');
-      var field = new document.Field(name, required, location, fieldDescription);
+    let _relativeUrl = getString(data, 'url');
+    let _url = _relativeUrl ? URL(_relativeUrl, baseUrl).toString() : '';
+    let method = getString(data, 'action') || 'get';
+    let _title = getString(data, 'title');
+    let _description = getString(data, 'description');
+    let fieldsData = getArray(data, 'fields');
+    let fields = [];
+    for (let idx = 0, len = fieldsData.length; idx < len; idx++) {
+      let value = fieldsData[idx];
+      let name = getString(value, 'name');
+      let required = getBoolean(value, 'required');
+      let location = getString(value, 'location');
+      let fieldDescription = getString(value, 'fieldDescription');
+      let field = new document.Field(name, required, location, fieldDescription);
       fields.push(field);
     }
     return new document.Link(_url, method, 'application/json', fields, _title, _description);
   } else if (isObject) {
     // Object
-    var _content = {};
-    for (var key in data) {
+    let _content = {};
+    for (let key in data) {
       if (data.hasOwnProperty(key)) {
         _content[key] = primitiveToNode(data[key], baseUrl);
       }
@@ -333,8 +333,8 @@ function primitiveToNode(data, baseUrl) {
     return _content;
   } else if (data instanceof Array) {
     // Object
-    var _content2 = [];
-    for (var _idx = 0, _len = data.length; _idx < _len; _idx++) {
+    let _content2 = [];
+    for (let _idx = 0, _len = data.length; _idx < _len; _idx++) {
       _content2.push(primitiveToNode(data[_idx], baseUrl));
     }
     return _content2;
@@ -343,7 +343,7 @@ function primitiveToNode(data, baseUrl) {
   return data;
 }
 
-var CoreJSONCodec = function () {
+let CoreJSONCodec = function () {
   function CoreJSONCodec() {
     _classCallCheck(this, CoreJSONCodec);
 
@@ -353,9 +353,9 @@ var CoreJSONCodec = function () {
   _createClass(CoreJSONCodec, [{
     key: 'decode',
     value: function decode(text) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      var data = text;
+      let data = text;
       if (options.preloaded === undefined || !options.preloaded) {
         data = JSON.parse(text);
       }
@@ -373,9 +373,9 @@ module.exports = {
 },{"../document":10,"url-parse":19}],7:[function(require,module,exports){
 'use strict';
 
-var corejson = require('./corejson');
-var json = require('./json');
-var text = require('./text');
+let corejson = require('./corejson');
+let json = require('./json');
+let text = require('./text');
 
 module.exports = {
   CoreJSONCodec: corejson.CoreJSONCodec,
@@ -386,11 +386,11 @@ module.exports = {
 },{"./corejson":6,"./json":8,"./text":9}],8:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var JSONCodec = function () {
+let JSONCodec = function () {
   function JSONCodec() {
     _classCallCheck(this, JSONCodec);
 
@@ -400,7 +400,7 @@ var JSONCodec = function () {
   _createClass(JSONCodec, [{
     key: 'decode',
     value: function decode(text) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       return JSON.parse(text);
     }
@@ -416,11 +416,11 @@ module.exports = {
 },{}],9:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var TextCodec = function () {
+let TextCodec = function () {
   function TextCodec() {
     _classCallCheck(this, TextCodec);
 
@@ -430,7 +430,7 @@ var TextCodec = function () {
   _createClass(TextCodec, [{
     key: 'decode',
     value: function decode(text) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       return text;
     }
@@ -448,11 +448,11 @@ module.exports = {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Document = function Document() {
-  var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  var description = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-  var content = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+let Document = function Document() {
+  let url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  let title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  let description = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  let content = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
   _classCallCheck(this, Document);
 
@@ -462,11 +462,11 @@ var Document = function Document() {
   this.content = content;
 };
 
-var Link = function Link(url, method) {
-  var encoding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'application/json';
-  var fields = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
-  var title = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
-  var description = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
+let Link = function Link(url, method) {
+  let encoding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'application/json';
+  let fields = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+  let title = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+  let description = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
 
   _classCallCheck(this, Link);
 
@@ -486,10 +486,10 @@ var Link = function Link(url, method) {
   this.description = description;
 };
 
-var Field = function Field(name) {
-  var required = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  var location = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-  var description = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+let Field = function Field(name) {
+  let required = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  let location = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  let description = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
   _classCallCheck(this, Field);
 
@@ -518,13 +518,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ParameterError = function (_Error) {
+let ParameterError = function (_Error) {
   _inherits(ParameterError, _Error);
 
   function ParameterError(message) {
     _classCallCheck(this, ParameterError);
 
-    var _this = _possibleConstructorReturn(this, (ParameterError.__proto__ || Object.getPrototypeOf(ParameterError)).call(this, message));
+    let _this = _possibleConstructorReturn(this, (ParameterError.__proto__ || Object.getPrototypeOf(ParameterError)).call(this, message));
 
     _this.message = message;
     _this.name = 'ParameterError';
@@ -534,13 +534,13 @@ var ParameterError = function (_Error) {
   return ParameterError;
 }(Error);
 
-var LinkLookupError = function (_Error2) {
+let LinkLookupError = function (_Error2) {
   _inherits(LinkLookupError, _Error2);
 
   function LinkLookupError(message) {
     _classCallCheck(this, LinkLookupError);
 
-    var _this2 = _possibleConstructorReturn(this, (LinkLookupError.__proto__ || Object.getPrototypeOf(LinkLookupError)).call(this, message));
+    let _this2 = _possibleConstructorReturn(this, (LinkLookupError.__proto__ || Object.getPrototypeOf(LinkLookupError)).call(this, message));
 
     _this2.message = message;
     _this2.name = 'LinkLookupError';
@@ -550,13 +550,13 @@ var LinkLookupError = function (_Error2) {
   return LinkLookupError;
 }(Error);
 
-var ErrorMessage = function (_Error3) {
+let ErrorMessage = function (_Error3) {
   _inherits(ErrorMessage, _Error3);
 
   function ErrorMessage(message, content) {
     _classCallCheck(this, ErrorMessage);
 
-    var _this3 = _possibleConstructorReturn(this, (ErrorMessage.__proto__ || Object.getPrototypeOf(ErrorMessage)).call(this, message));
+    let _this3 = _possibleConstructorReturn(this, (ErrorMessage.__proto__ || Object.getPrototypeOf(ErrorMessage)).call(this, message));
 
     _this3.message = message;
     _this3.content = content;
@@ -576,15 +576,15 @@ module.exports = {
 },{}],12:[function(require,module,exports){
 'use strict';
 
-var auth = require('./auth');
-var client = require('./client');
-var codecs = require('./codecs');
-var document = require('./document');
-var errors = require('./errors');
-var transports = require('./transports');
-var utils = require('./utils');
+let auth = require('./auth');
+let client = require('./client');
+let codecs = require('./codecs');
+let document = require('./document');
+let errors = require('./errors');
+let transports = require('./transports');
+let utils = require('./utils');
 
-var coreapi = {
+let coreapi = {
   Client: client.Client,
   Document: document.Document,
   Link: document.Link,
@@ -600,31 +600,31 @@ module.exports = coreapi;
 },{"./auth":2,"./client":5,"./codecs":7,"./document":10,"./errors":11,"./transports":14,"./utils":15}],13:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function () { function defineProperties(target, props) { for (let i = 0; i < props.length; i++) { let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var fetch = require('isomorphic-fetch');
-var errors = require('../errors');
-var utils = require('../utils');
-var URL = require('url-parse');
-var urlTemplate = require('url-template');
+let fetch = require('isomorphic-fetch');
+let errors = require('../errors');
+let utils = require('../utils');
+let URL = require('url-parse');
+let urlTemplate = require('url-template');
 
-var parseResponse = function parseResponse(response, decoders, responseCallback) {
+let parseResponse = function parseResponse(response, decoders, responseCallback) {
   return response.text().then(function (text) {
     if (responseCallback) {
       responseCallback(response, text);
     }
-    var contentType = response.headers.get('Content-Type');
-    var decoder = utils.negotiateDecoder(decoders, contentType);
-    var options = { url: response.url };
+    let contentType = response.headers.get('Content-Type');
+    let decoder = utils.negotiateDecoder(decoders, contentType);
+    let options = { url: response.url };
     return decoder.decode(text, options);
   });
 };
 
-var HTTPTransport = function () {
+let HTTPTransport = function () {
   function HTTPTransport() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, HTTPTransport);
 
@@ -640,18 +640,18 @@ var HTTPTransport = function () {
   _createClass(HTTPTransport, [{
     key: 'buildRequest',
     value: function buildRequest(link, decoders) {
-      var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      let params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-      var fields = link.fields;
-      var method = link.method.toUpperCase();
-      var queryParams = {};
-      var pathParams = {};
-      var formParams = {};
-      var fieldNames = [];
-      var hasBody = false;
+      let fields = link.fields;
+      let method = link.method.toUpperCase();
+      let queryParams = {};
+      let pathParams = {};
+      let formParams = {};
+      let fieldNames = [];
+      let hasBody = false;
 
-      for (var idx = 0, len = fields.length; idx < len; idx++) {
-        var field = fields[idx];
+      for (let idx = 0, len = fields.length; idx < len; idx++) {
+        let field = fields[idx];
 
         // Ensure any required fields are included
         if (!params.hasOwnProperty(field.name)) {
@@ -677,13 +677,13 @@ var HTTPTransport = function () {
       }
 
       // Check for any parameters that did not have a matching field
-      for (var property in params) {
+      for (let property in params) {
         if (params.hasOwnProperty(property) && !fieldNames.includes(property)) {
           throw new errors.ParameterError('Unknown parameter: "' + property + '"');
         }
       }
 
-      var requestOptions = { method: method, headers: {} };
+      let requestOptions = { method: method, headers: {} };
 
       Object.assign(requestOptions.headers, this.headers);
 
@@ -692,17 +692,17 @@ var HTTPTransport = function () {
           requestOptions.body = JSON.stringify(formParams);
           requestOptions.headers['Content-Type'] = 'application/json';
         } else if (link.encoding === 'multipart/form-data') {
-          var form = new this.FormData();
+          let form = new this.FormData();
 
-          for (var paramKey in formParams) {
+          for (let paramKey in formParams) {
             form.append(paramKey, formParams[paramKey]);
           }
           requestOptions.body = form;
         } else if (link.encoding === 'application/x-www-form-urlencoded') {
-          var formBody = [];
-          for (var _paramKey in formParams) {
-            var encodedKey = encodeURIComponent(_paramKey);
-            var encodedValue = encodeURIComponent(formParams[_paramKey]);
+          let formBody = [];
+          for (let _paramKey in formParams) {
+            let encodedKey = encodeURIComponent(_paramKey);
+            let encodedValue = encodeURIComponent(formParams[_paramKey]);
             formBody.push(encodedKey + '=' + encodedValue);
           }
           formBody = formBody.join('&');
@@ -716,7 +716,7 @@ var HTTPTransport = function () {
         requestOptions = this.auth.authenticate(requestOptions);
       }
 
-      var parsedUrl = urlTemplate.parse(link.url);
+      let parsedUrl = urlTemplate.parse(link.url);
       parsedUrl = parsedUrl.expand(pathParams);
       parsedUrl = new URL(parsedUrl);
       parsedUrl.set('query', queryParams);
@@ -729,10 +729,10 @@ var HTTPTransport = function () {
   }, {
     key: 'action',
     value: function action(link, decoders) {
-      var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      let params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-      var responseCallback = this.responseCallback;
-      var request = this.buildRequest(link, decoders, params);
+      let responseCallback = this.responseCallback;
+      let request = this.buildRequest(link, decoders, params);
 
       if (this.requestCallback) {
         this.requestCallback(request);
@@ -743,8 +743,8 @@ var HTTPTransport = function () {
           if (response.ok) {
             return data;
           } else {
-            var title = response.status + ' ' + response.statusText;
-            var error = new errors.ErrorMessage(title, data);
+            let title = response.status + ' ' + response.statusText;
+            let error = new errors.ErrorMessage(title, data);
             return Promise.reject(error);
           }
         });
@@ -762,7 +762,7 @@ module.exports = {
 },{"../errors":11,"../utils":15,"isomorphic-fetch":16,"url-parse":19,"url-template":21}],14:[function(require,module,exports){
 'use strict';
 
-var http = require('./http');
+let http = require('./http');
 
 module.exports = {
   HTTPTransport: http.HTTPTransport
@@ -771,19 +771,19 @@ module.exports = {
 },{"./http":13}],15:[function(require,module,exports){
 'use strict';
 
-var URL = require('url-parse');
+let URL = require('url-parse');
 
-var determineTransport = function determineTransport(transports, url) {
-  var parsedUrl = new URL(url);
-  var scheme = parsedUrl.protocol.replace(':', '');
+let determineTransport = function determineTransport(transports, url) {
+  let parsedUrl = new URL(url);
+  let scheme = parsedUrl.protocol.replace(':', '');
 
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  let _iteratorNormalCompletion = true;
+  let _didIteratorError = false;
+  let _iteratorError = undefined;
 
   try {
-    for (var _iterator = transports[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var transport = _step.value;
+    for (let _iterator = transports[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      let transport = _step.value;
 
       if (transport.schemes.includes(scheme)) {
         return transport;
@@ -807,23 +807,23 @@ var determineTransport = function determineTransport(transports, url) {
   throw Error('Unsupported scheme in URL: ' + url);
 };
 
-var negotiateDecoder = function negotiateDecoder(decoders, contentType) {
+let negotiateDecoder = function negotiateDecoder(decoders, contentType) {
   if (contentType === undefined) {
     return decoders[0];
   }
 
-  var fullType = contentType.toLowerCase().split(';')[0].trim();
-  var mainType = fullType.split('/')[0] + '/*';
-  var wildcardType = '*/*';
-  var acceptableTypes = [fullType, mainType, wildcardType];
+  let fullType = contentType.toLowerCase().split(';')[0].trim();
+  let mainType = fullType.split('/')[0] + '/*';
+  let wildcardType = '*/*';
+  let acceptableTypes = [fullType, mainType, wildcardType];
 
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+  let _iteratorNormalCompletion2 = true;
+  let _didIteratorError2 = false;
+  let _iteratorError2 = undefined;
 
   try {
-    for (var _iterator2 = decoders[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var decoder = _step2.value;
+    for (let _iterator2 = decoders[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      let decoder = _step2.value;
 
       if (acceptableTypes.includes(decoder.mediaType)) {
         return decoder;
@@ -847,7 +847,7 @@ var negotiateDecoder = function negotiateDecoder(decoders, contentType) {
   throw Error('Unsupported media in Content-Type header: ' + contentType);
 };
 
-var csrfSafeMethod = function csrfSafeMethod(method) {
+let csrfSafeMethod = function csrfSafeMethod(method) {
   // these HTTP methods do not require CSRF protection
   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method)
   );
@@ -870,7 +870,7 @@ module.exports = self.fetch.bind(self);
 },{"whatwg-fetch":22}],17:[function(require,module,exports){
 'use strict';
 
-var has = Object.prototype.hasOwnProperty;
+let has = Object.prototype.hasOwnProperty;
 
 /**
  * Simple query string parser.
@@ -880,7 +880,7 @@ var has = Object.prototype.hasOwnProperty;
  * @api public
  */
 function querystring(query) {
-  var parser = /([^=?&]+)=?([^&]*)/g
+  let parser = /([^=?&]+)=?([^&]*)/g
     , result = {}
     , part;
 
@@ -908,14 +908,14 @@ function querystring(query) {
 function querystringify(obj, prefix) {
   prefix = prefix || '';
 
-  var pairs = [];
+  let pairs = [];
 
   //
   // Optionally prefix with a '?' if needed
   //
   if ('string' !== typeof prefix) prefix = '?';
 
-  for (var key in obj) {
+  for (let key in obj) {
     if (has.call(obj, key)) {
       pairs.push(encodeURIComponent(key) +'='+ encodeURIComponent(obj[key]));
     }
@@ -973,7 +973,7 @@ module.exports = function required(port, protocol) {
 },{}],19:[function(require,module,exports){
 'use strict';
 
-var required = require('requires-port')
+let required = require('requires-port')
   , lolcation = require('./lolcation')
   , qs = require('querystringify')
   , protocolre = /^([a-z][a-z0-9.+-]*:)?(\/\/)?([\S\s]*)/i;
@@ -990,7 +990,7 @@ var required = require('requires-port')
  * 3. Inherit from location if non existing in the parser.
  * 4. `toLowerCase` the resulting value.
  */
-var rules = [
+let rules = [
   ['#', 'hash'],                        // Extract from the back.
   ['?', 'query'],                       // Extract from the back.
   ['/', 'pathname'],                    // Extract from the back.
@@ -1016,7 +1016,7 @@ var rules = [
  * @api private
  */
 function extractProtocol(address) {
-  var match = protocolre.exec(address);
+  let match = protocolre.exec(address);
 
   return {
     protocol: match[1] ? match[1].toLowerCase() : '',
@@ -1034,7 +1034,7 @@ function extractProtocol(address) {
  * @api private
  */
 function resolve(relative, base) {
-  var path = (base || '/').split('/').slice(0, -1).concat(relative.split('/'))
+  let path = (base || '/').split('/').slice(0, -1).concat(relative.split('/'))
     , i = path.length
     , last = path[i - 1]
     , unshift = false
@@ -1075,7 +1075,7 @@ function URL(address, location, parser) {
     return new URL(address, location, parser);
   }
 
-  var relative, extracted, parse, instruction, index, key
+  let relative, extracted, parse, instruction, index, key
     , instructions = rules.slice()
     , type = typeof location
     , url = this
@@ -1212,7 +1212,7 @@ function URL(address, location, parser) {
  * @api public
  */
 URL.prototype.set = function set(part, value, fn) {
-  var url = this;
+  let url = this;
 
   switch (part) {
     case 'query':
@@ -1270,8 +1270,8 @@ URL.prototype.set = function set(part, value, fn) {
       url[part] = value;
   }
 
-  for (var i = 0; i < rules.length; i++) {
-    var ins = rules[i];
+  for (let i = 0; i < rules.length; i++) {
+    let ins = rules[i];
 
     if (ins[4]) url[ins[1]] = url[ins[1]].toLowerCase();
   }
@@ -1295,13 +1295,13 @@ URL.prototype.set = function set(part, value, fn) {
 URL.prototype.toString = function toString(stringify) {
   if (!stringify || 'function' !== typeof stringify) stringify = qs.stringify;
 
-  var query
+  let query
     , url = this
     , protocol = url.protocol;
 
   if (protocol && protocol.charAt(protocol.length - 1) !== ':') protocol += ':';
 
-  var result = protocol + (url.slashes ? '//' : '');
+  let result = protocol + (url.slashes ? '//' : '');
 
   if (url.username) {
     result += url.username;
@@ -1333,7 +1333,7 @@ module.exports = URL;
 (function (global){
 'use strict';
 
-var slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//;
+let slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//;
 
 /**
  * These properties should not be copied or inherited from. This is only needed
@@ -1343,7 +1343,7 @@ var slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//;
  * @type {Object}
  * @private
  */
-var ignore = { hash: 1, query: 1 }
+let ignore = { hash: 1, query: 1 }
   , URL;
 
 /**
@@ -1362,7 +1362,7 @@ module.exports = function lolcation(loc) {
   loc = loc || global.location || {};
   URL = URL || require('./');
 
-  var finaldestination = {}
+  let finaldestination = {}
     , type = typeof loc
     , key;
 
@@ -1471,7 +1471,7 @@ module.exports = function lolcation(loc) {
    * @param {string} modifier
    */
   UrlTemplate.prototype.getValues = function (context, operator, key, modifier) {
-    var value = context[key],
+    let value = context[key],
         result = [];
 
     if (this.isDefined(value) && value !== '') {
@@ -1497,7 +1497,7 @@ module.exports = function lolcation(loc) {
             }, this);
           }
         } else {
-          var tmp = [];
+          let tmp = [];
 
           if (Array.isArray(value)) {
             value.filter(this.isDefined).forEach(function (value) {
@@ -1538,14 +1538,14 @@ module.exports = function lolcation(loc) {
    * @return {function(Object):string}
    */
   UrlTemplate.prototype.parse = function (template) {
-    var that = this;
-    var operators = ['+', '#', '.', '/', ';', '?', '&'];
+    let that = this;
+    let operators = ['+', '#', '.', '/', ';', '?', '&'];
 
     return {
       expand: function (context) {
         return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function (_, expression, literal) {
           if (expression) {
-            var operator = null,
+            let operator = null,
                 values = [];
 
             if (operators.indexOf(expression.charAt(0)) !== -1) {
@@ -1554,12 +1554,12 @@ module.exports = function lolcation(loc) {
             }
 
             expression.split(/,/g).forEach(function (variable) {
-              var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
+              let tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
               values.push.apply(values, that.getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
             });
 
             if (operator && operator !== '+') {
-              var separator = ',';
+              let separator = ',';
 
               if (operator === '?') {
                 separator = '&';
@@ -1589,7 +1589,7 @@ module.exports = function lolcation(loc) {
     return
   }
 
-  var support = {
+  let support = {
     searchParams: 'URLSearchParams' in self,
     iterable: 'Symbol' in self && 'iterator' in Symbol,
     blob: 'FileReader' in self && 'Blob' in self && (function() {
@@ -1605,7 +1605,7 @@ module.exports = function lolcation(loc) {
   }
 
   if (support.arrayBuffer) {
-    var viewClasses = [
+    let viewClasses = [
       '[object Int8Array]',
       '[object Uint8Array]',
       '[object Uint8ClampedArray]',
@@ -1617,11 +1617,11 @@ module.exports = function lolcation(loc) {
       '[object Float64Array]'
     ]
 
-    var isDataView = function(obj) {
+    let isDataView = function(obj) {
       return obj && DataView.prototype.isPrototypeOf(obj)
     }
 
-    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
+    let isArrayBufferView = ArrayBuffer.isView || function(obj) {
       return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
     }
   }
@@ -1645,9 +1645,9 @@ module.exports = function lolcation(loc) {
 
   // Build a destructive iterator for the value list
   function iteratorFor(items) {
-    var iterator = {
+    let iterator = {
       next: function() {
-        var value = items.shift()
+        let value = items.shift()
         return {done: value === undefined, value: value}
       }
     }
@@ -1679,7 +1679,7 @@ module.exports = function lolcation(loc) {
   Headers.prototype.append = function(name, value) {
     name = normalizeName(name)
     value = normalizeValue(value)
-    var oldValue = this.map[name]
+    let oldValue = this.map[name]
     this.map[name] = oldValue ? oldValue+','+value : value
   }
 
@@ -1701,7 +1701,7 @@ module.exports = function lolcation(loc) {
   }
 
   Headers.prototype.forEach = function(callback, thisArg) {
-    for (var name in this.map) {
+    for (let name in this.map) {
       if (this.map.hasOwnProperty(name)) {
         callback.call(thisArg, this.map[name], name, this)
       }
@@ -1709,19 +1709,19 @@ module.exports = function lolcation(loc) {
   }
 
   Headers.prototype.keys = function() {
-    var items = []
+    let items = []
     this.forEach(function(value, name) { items.push(name) })
     return iteratorFor(items)
   }
 
   Headers.prototype.values = function() {
-    var items = []
+    let items = []
     this.forEach(function(value) { items.push(value) })
     return iteratorFor(items)
   }
 
   Headers.prototype.entries = function() {
-    var items = []
+    let items = []
     this.forEach(function(value, name) { items.push([name, value]) })
     return iteratorFor(items)
   }
@@ -1749,15 +1749,15 @@ module.exports = function lolcation(loc) {
   }
 
   function readBlobAsArrayBuffer(blob) {
-    var reader = new FileReader()
-    var promise = fileReaderReady(reader)
+    let reader = new FileReader()
+    let promise = fileReaderReady(reader)
     reader.readAsArrayBuffer(blob)
     return promise
   }
 
   function readBlobAsText(blob) {
-    var reader = new FileReader()
-    var promise = fileReaderReady(reader)
+    let reader = new FileReader()
+    let promise = fileReaderReady(reader)
     reader.readAsText(blob)
     return promise
   }
@@ -1766,7 +1766,7 @@ module.exports = function lolcation(loc) {
     if (buf.slice) {
       return buf.slice(0)
     } else {
-      var view = new Uint8Array(buf.byteLength)
+      let view = new Uint8Array(buf.byteLength)
       view.set(new Uint8Array(buf))
       return view.buffer
     }
@@ -1810,7 +1810,7 @@ module.exports = function lolcation(loc) {
 
     if (support.blob) {
       this.blob = function() {
-        var rejected = consumed(this)
+        let rejected = consumed(this)
         if (rejected) {
           return rejected
         }
@@ -1828,7 +1828,7 @@ module.exports = function lolcation(loc) {
     }
 
     this.text = function() {
-      var rejected = consumed(this)
+      let rejected = consumed(this)
       if (rejected) {
         return rejected
       }
@@ -1836,8 +1836,8 @@ module.exports = function lolcation(loc) {
       if (this._bodyBlob) {
         return readBlobAsText(this._bodyBlob)
       } else if (this._bodyArrayBuffer) {
-        var view = new Uint8Array(this._bodyArrayBuffer)
-        var str = String.fromCharCode.apply(null, view)
+        let view = new Uint8Array(this._bodyArrayBuffer)
+        let str = String.fromCharCode.apply(null, view)
         return Promise.resolve(str)
       } else if (this._bodyFormData) {
         throw new Error('could not read FormData body as text')
@@ -1870,16 +1870,16 @@ module.exports = function lolcation(loc) {
   }
 
   // HTTP methods whose capitalization should be normalized
-  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+  let methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
 
   function normalizeMethod(method) {
-    var upcased = method.toUpperCase()
+    let upcased = method.toUpperCase()
     return (methods.indexOf(upcased) > -1) ? upcased : method
   }
 
   function Request(input, options) {
     options = options || {}
-    var body = options.body
+    let body = options.body
 
     if (typeof input === 'string') {
       this.url = input
@@ -1919,12 +1919,12 @@ module.exports = function lolcation(loc) {
   }
 
   function decode(body) {
-    var form = new FormData()
+    let form = new FormData()
     body.trim().split('&').forEach(function(bytes) {
       if (bytes) {
-        var split = bytes.split('=')
-        var name = split.shift().replace(/\+/g, ' ')
-        var value = split.join('=').replace(/\+/g, ' ')
+        let split = bytes.split('=')
+        let name = split.shift().replace(/\+/g, ' ')
+        let value = split.join('=').replace(/\+/g, ' ')
         form.append(decodeURIComponent(name), decodeURIComponent(value))
       }
     })
@@ -1932,12 +1932,12 @@ module.exports = function lolcation(loc) {
   }
 
   function parseHeaders(rawHeaders) {
-    var headers = new Headers()
+    let headers = new Headers()
     rawHeaders.split('\r\n').forEach(function(line) {
-      var parts = line.split(':')
-      var key = parts.shift().trim()
+      let parts = line.split(':')
+      let key = parts.shift().trim()
       if (key) {
-        var value = parts.join(':').trim()
+        let value = parts.join(':').trim()
         headers.append(key, value)
       }
     })
@@ -1972,12 +1972,12 @@ module.exports = function lolcation(loc) {
   }
 
   Response.error = function() {
-    var response = new Response(null, {status: 0, statusText: ''})
+    let response = new Response(null, {status: 0, statusText: ''})
     response.type = 'error'
     return response
   }
 
-  var redirectStatuses = [301, 302, 303, 307, 308]
+  let redirectStatuses = [301, 302, 303, 307, 308]
 
   Response.redirect = function(url, status) {
     if (redirectStatuses.indexOf(status) === -1) {
@@ -1993,17 +1993,17 @@ module.exports = function lolcation(loc) {
 
   self.fetch = function(input, init) {
     return new Promise(function(resolve, reject) {
-      var request = new Request(input, init)
-      var xhr = new XMLHttpRequest()
+      let request = new Request(input, init)
+      let xhr = new XMLHttpRequest()
 
       xhr.onload = function() {
-        var options = {
+        let options = {
           status: xhr.status,
           statusText: xhr.statusText,
           headers: parseHeaders(xhr.getAllResponseHeaders() || '')
         }
         options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
-        var body = 'response' in xhr ? xhr.response : xhr.responseText
+        let body = 'response' in xhr ? xhr.response : xhr.responseText
         resolve(new Response(body, options))
       }
 

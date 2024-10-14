@@ -30,8 +30,8 @@ def index(request):
     """
     Index page for blog application - To list all blogs
     """
-    Articles = Article.objects.all().values('id', 'title')
-    return render(request, 'blog/index.html', {'articles': Articles})
+    articles = Article.objects.all().values('id', 'title')
+    return render(request, 'blog/index.html', {'articles': articles})
 
 
 # Method to display article

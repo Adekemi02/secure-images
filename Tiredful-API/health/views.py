@@ -31,6 +31,9 @@ def index(request):
     tracker_details = Tracker.objects.all()
     return render(request, 'health/index.html', {'tracker_details': tracker_details})
 
+# Helper function to serialize activities
+def serialize_activities(activities):
+    return [TrackerSerializers(activity).data for activity in activities]
 
 # get user activities
 @api_view(['POST'])
@@ -38,29 +41,25 @@ def get_activity(request):
     """
     Details of user activity monthwise
     """
-    if request.method == 'POST':
-        if request.data:
-            if 'month' in request.data.keys():
-                month_requested = request.data['month']
-                try:
-                    activity_detail = Tracker.objects.raw(
-                        'SELECT * FROM health_tracker WHERE month=%s', [month_requested])
-                    final_serialized_data = []
-                    for activity in activity_detail:
-                        serializer = TrackerSerializers(activity)
-                        final_serialized_data.append(serializer.data)
-                    return Response(final_serialized_data)
-                except Tracker.DoesNotExist:
-                    return Response(status=status.HTTP_404_NOT_FOUND)
-                except ValueError:
-                    cursor = connection.cursor()
-                    sql_insert_query = "Select * from health_tracker where month=%s"
-                    cursor.execute(sql_insert_query, [month_requested])
-                    activity_detail = cursor.fetchall()
-                    return JsonResponse(activity_detail, safe=False)
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    month_requested = request.data.get('month')
+
+    # Check for missing month in request data
+    if not month_requested:
+        return Response({"error": "Month is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Use Django ORM instead of raw SQL
+        activity_detail = Tracker.objects.filter(month=month_requested)
+
+        # Check if any activities were found
+        if not activity_detail.exists():
+            return Response({"error": "No activities found for the given month."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Serialize and return the data
+        final_serialized_data = serialize_activities(activity_detail)
+        return Response(final_serialized_data)
+
+    except Exception as e:
+        # Log exception (if you have a logging system)
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    

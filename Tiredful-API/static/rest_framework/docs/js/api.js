@@ -7,7 +7,7 @@ function normalizeHTTPHeader (str) {
     .replace(/(Md5)/g, function ($1) { return 'MD5' })
 }
 
-var responseDisplay = 'data'
+let responseDisplay = 'data'
 const coreapi = window.coreapi
 const schema = window.schema
 
@@ -15,39 +15,39 @@ const schema = window.schema
 $('#language-control li').click(function (event) {
     event.preventDefault();
     const languageMenuItem = $(this).find('a');
-    var language = languageMenuItem.data("language")
+    let language = languageMenuItem.data("language")
 
-    var languageControls = $(this).closest('ul').find('li');
+    let languageControls = $(this).closest('ul').find('li');
     languageControls.find('a').not('[data-language="' + language +'"]').parent().removeClass("active")
     languageControls.find('a').filter('[data-language="' + language +'"]').parent().addClass("active")
 
     $('#selected-language').text(language)
 
-    var codeBlocks = $('pre.highlight')
+    let codeBlocks = $('pre.highlight')
     codeBlocks.not('[data-language="' + language +'"]').addClass("hide")
     codeBlocks.filter('[data-language="' + language +'"]').removeClass("hide")
 })
 
 function formEntries (form) {
   // Polyfill for new FormData(form).entries()
-  var formData = new FormData(form)
+  let formData = new FormData(form)
   if (formData.entries !== undefined) {
     return formData.entries()
   }
 
-  var entries = []
+  let entries = []
 
-  for (var {name, type, value, files, checked, selectedOptions} of Array.from(form.elements)) {
+  for (let {name, type, value, files, checked, selectedOptions} of Array.from(form.elements)) {
     if (!name) {
       continue
     }
 
     if (type === 'file') {
-      for (var file of files) {
+      for (let file of files) {
         entries.push([name, file])
       }
     } else if (type === 'select-multiple' || type === 'select-one') {
-      for (var elm of Array.from(selectedOptions)) {
+      for (let elm of Array.from(selectedOptions)) {
         entries.push([name, elm.value])
       }
     } else if (type === 'checkbox') {
@@ -67,25 +67,25 @@ $('form.api-interaction').submit(function(event) {
 
     const form = $(this).closest("form");
     const key = form.data("key");
-    var params = {};
+    let params = {};
 
     const entries = formEntries(form.get()[0]);
-    for (var [paramKey, paramValue] of entries) {
-        var elem = form.find("[name=" + paramKey + "]")
-        var dataType = elem.data('type') || 'string'
+    for (let [paramKey, paramValue] of entries) {
+        let elem = form.find("[name=" + paramKey + "]")
+        let dataType = elem.data('type') || 'string'
 
         if (dataType === 'integer' && paramValue) {
-            var value = parseInt(paramValue)
+            let value = parseInt(paramValue)
             if (!isNaN(value)) {
               params[paramKey] = value
             }
         } else if (dataType === 'number' && paramValue) {
-            var value = parseFloat(paramValue)
+            let value = parseFloat(paramValue)
             if (!isNaN(value)) {
               params[paramKey] = value
             }
         } else if (dataType === 'boolean' && paramValue) {
-            var value = {
+            let value = {
                 'true': true,
                 'false': false
             }[paramValue.toLowerCase()]
@@ -111,7 +111,7 @@ $('form.api-interaction').submit(function(event) {
 
     form.find(":checkbox").each(function( index ) {
         // Handle unselected checkboxes
-        var name = $(this).attr("name");
+        let name = $(this).attr("name");
         if (!params.hasOwnProperty(name)) {
             params[name] = false
         }
@@ -119,7 +119,7 @@ $('form.api-interaction').submit(function(event) {
 
     function requestCallback(request) {
         // Fill in the "GET /foo/" display.
-        var parser = document.createElement('a');
+        let parser = document.createElement('a');
         parser.href = request.url;
         const method = request.options.method
         const path = parser.pathname + parser.hash + parser.search
@@ -143,7 +143,7 @@ $('form.api-interaction').submit(function(event) {
         form.find(".meta").removeClass("hide")
 
         // Fill in the Raw HTTP response display.
-        var panelText = 'HTTP/1.1 ' + response.status + ' ' + response.statusText + '\n';
+        let panelText = 'HTTP/1.1 ' + response.status + ' ' + response.statusText + '\n';
         response.headers.forEach(function(header, key) {
             panelText += normalizeHTTPHeader(key) + ': ' + header + '\n'
         })
@@ -154,7 +154,7 @@ $('form.api-interaction').submit(function(event) {
     }
 
     // Instantiate a client to make the outgoing request.
-    var options = {
+    let options = {
         requestCallback: requestCallback,
         responseCallback: responseCallback,
     }
@@ -183,7 +183,7 @@ $('form.api-interaction').submit(function(event) {
     const client = new coreapi.Client(options)
 
     client.action(schema, key, params).then(function (data) {
-        var response = JSON.stringify(data, null, 2);
+        let response = JSON.stringify(data, null, 2);
         form.find(".request-awaiting").addClass("hide")
         form.find(".response-raw").addClass("hide")
         form.find(".response-data").addClass("hide")
@@ -196,7 +196,7 @@ $('form.api-interaction').submit(function(event) {
             form.find(".response-raw").removeClass("hide")
         }
     }).catch(function (error) {
-        var response = JSON.stringify(error.content, null, 2);
+        let response = JSON.stringify(error.content, null, 2);
         form.find(".request-awaiting").addClass("hide")
         form.find(".response-raw").addClass("hide")
         form.find(".response-data").addClass("hide")

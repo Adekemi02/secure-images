@@ -1,5 +1,5 @@
 # Base image
-FROM python:3.11-alpine as builder
+FROM python:3.11-alpine AS builder
 
 # Create a non root user and group
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
@@ -18,7 +18,7 @@ USER appuser
 
 # Update apk repositories and install necessary packages
 RUN apk update && \
- apk add --no-cache python3 py3-pip python3-dev build-base && \ 
+ apk add --no-cache build-base python3 python3-dev py3-pip && \ 
  python3 -m venv /app/venv && \ 
  /app/venv/bin/pip install --no-cache-dir -r /app/requirements.txt
 
