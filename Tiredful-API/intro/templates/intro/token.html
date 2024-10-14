@@ -60,8 +60,8 @@
 <script type="text/javascript">
 $.fn.serializeObject = function()
 {
-    var o = {};
-    var a = this.serializeArray();
+    let o = {};
+    let a = this.serializeArray();
     $.each(a, function() {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
@@ -74,12 +74,12 @@ $.fn.serializeObject = function()
     });
     return o;
 };
-  var operationDiv = document.getElementById("generatedToken");
+  let operationDiv = document.getElementById("generatedToken");
   function getToken() {
         operationDiv.innerHTML= "";
-        var formDataJSON = $("#loginUserForm").serializeObject();
-        var formElements = [];
-        for (var p in formDataJSON)
+        let formDataJSON = $("#loginUserForm").serializeObject();
+        let formElements = [];
+        for (let p in formDataJSON)
           formElements.push(encodeURIComponent(p) + "=" + encodeURIComponent(formDataJSON[p]));
         let str = formElements.join("&");
         $.ajax({
@@ -98,11 +98,11 @@ $.fn.serializeObject = function()
 
 function revokeToken() {
     operationDiv.innerHTML= "";
-    var formDataJSON = $("#logoutUserForm").serializeObject();
-    var formElements = [];
-    for (var p in formDataJSON)
+    let formDataJSON = $("#logoutUserForm").serializeObject();
+    let formElements = [];
+    for (let p in formDataJSON)
       formElements.push(encodeURIComponent(p) + "=" + encodeURIComponent(formDataJSON[p]));
-    str = formElements.join("&");
+    let str = formElements.join("&");
     $.ajax({
         type: "POST",
         url: "/oauth/revoke_token/",
@@ -124,10 +124,10 @@ function revokeToken() {
 
 function renderData(data,status)
 {
-  for (var key in data) {
+  for (let key in data) {
     if (data.hasOwnProperty(key)) {
-        response =  key + ":" + data[key];
-        var responseNode = document.createTextNode(response);     // Create a text node
+        let response =  key + ":" + data[key];
+        let responseNode = document.createTextNode(response);     // Create a text node
         operationDiv.appendChild(responseNode);
         operationDiv.appendChild(document.createElement("br"));   // Create linebreak
     }

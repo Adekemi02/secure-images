@@ -11,6 +11,11 @@ html {
 }
 body {
   margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
 }
 article,
 aside,
@@ -44,6 +49,8 @@ template {
 }
 a {
   background-color: transparent;
+  color: #337ab7;
+  text-decoration: none;
 }
 a:active,
 a:hover {
@@ -83,20 +90,22 @@ sup {
 sub {
   bottom: -.25em;
 }
-img {
-  border: 0;
-}
 svg:not(:root) {
   overflow: hidden;
 }
 figure {
   margin: 1em 40px;
+  margin: 0;
 }
 hr {
   height: 0;
   -webkit-box-sizing: content-box;
      -moz-box-sizing: content-box;
           box-sizing: content-box;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
 }
 pre {
   overflow: auto;
@@ -224,9 +233,9 @@ th {
   tr,
   img {
     page-break-inside: avoid;
-  }
-  img {
     max-width: 100% !important;
+    border: 0;
+    vertical-align: middle;
   }
   p,
   h2,
@@ -1081,13 +1090,6 @@ html {
 
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #333;
-  background-color: #fff;
-}
 input,
 button,
 select,
@@ -1095,10 +1097,6 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-}
-a {
-  color: #337ab7;
-  text-decoration: none;
 }
 a:hover,
 a:focus {
@@ -1108,12 +1106,6 @@ a:focus {
 a:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
-}
-figure {
-  margin: 0;
-}
-img {
-  vertical-align: middle;
 }
 .img-responsive,
 .thumbnail > img,
@@ -1142,12 +1134,6 @@ img {
 }
 .img-circle {
   border-radius: 50%;
-}
-hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 0;
-  border-top: 1px solid #eee;
 }
 .sr-only {
   position: absolute;
