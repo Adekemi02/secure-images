@@ -27,7 +27,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib.auth.models import User, Group
 
-from rest_framework import permissions, routers, serializers, viewsets
+from rest_framework import serializers
 
 
 # first we define the serializers
