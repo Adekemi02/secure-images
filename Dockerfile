@@ -1,5 +1,5 @@
 # Base image
-FROM alpine:latest
+FROM python:3.11-alpine as builder
 
 # Create a non root user and group
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
@@ -8,7 +8,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 
 # Copy the application files
-COPY . /app/
+COPY requirements.txt /app/
 
 # Change ownership of the application files to the non root user
 RUN chown -R appuser:appgroup /app

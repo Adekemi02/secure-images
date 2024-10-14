@@ -24,31 +24,30 @@ from advertisements.models import Classified
 from advertisements.serializers import ClassifiedSerializers
 
 
-# Index for cross site scripting
+# Index for rendering the advertisements page
 def index(request):
     """
-    Index for cross site scripting
+    Index for advertisements page
     """
-    return render(request, 'advertisements/index.html', )
+    return render(request, 'advertisements/index.html', context={})
 
 
 @api_view(['GET', 'POST'])
 @permission_classes((IsAuthenticated,))
-def advts(request):
+def advertisements(request):
     """
-    List of advts posted
+    List of advertisements posted
     """
     if request.method == 'GET':
         classifieds = Classified.objects.all()
         serializer = ClassifiedSerializers(classifieds, many=True)
         return Response(serializer.data)
+    
     elif request.method == 'POST':
         serializer = ClassifiedSerializers(data=request.data)
-        serializer.initial_data['user'] = request.user.id
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)  # Pass user as a keyword argument
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(
-            serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
