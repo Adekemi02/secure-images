@@ -24,14 +24,14 @@ from library.serializers import BookSerializer
 
 # API for showing book details - leaking system information
 @api_view(['GET'])
-def book_detail(request, ISBN):
+def book_detail(request, isbn):
     """
     Get details of specific book
     """
     try:
-        book = Book.objects.get(ISBN=ISBN)
+        book = Book.objects.get(ISBN=isbn)
     except Book.DoesNotExist:
-        if ISBN.isupper():
+        if isbn.isupper():
             return Response(traceback.format_exception(*sys.exc_info()))
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)

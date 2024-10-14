@@ -10,14 +10,28 @@
  This file is part of Tiredful API application -->
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="{{ STATIC_URL }}/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="{{ STATIC_URL }}/js/bootstrap.min.js"></script>
+<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-$(document).ready(function() {
-	// get current URL path and assign 'active' class
-	var pathname = window.location.pathname;
-	$('.nav-sidebar  li a[href="'+ pathname + '"]').parent().addClass("active");
-	$('.navbar  li a[href="'+ pathname + '"]').parent().addClass("active");
-})
+   if (typeof jQuery === 'undefined') {
+      let script = document.createElement('script');
+      script.src = '{{ STATIC_URL }}/js/vendor/jquery.min.js';
+      document.head.appendChild(script);
+   }
+</script>
+
+<!-- Load Bootstrap -->
+<script defer src="{{ STATIC_URL }}/js/bootstrap.min.js"></script>
+
+<!-- Activate navigation links based on the current path -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+   let pathname = window.location.pathname;
+   
+   // Combine both sidebar and navbar link selection
+   let activeLink = document.querySelectorAll('.nav-sidebar li a[href="'+ pathname +'"], .navbar li a[href="'+ pathname +'"]');
+   
+   activeLink.forEach(function(link) {
+      link.parentElement.classList.add('active');
+   });
+});
 </script>

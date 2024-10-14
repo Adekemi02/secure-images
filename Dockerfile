@@ -1,14 +1,26 @@
-FROM alpine:3.19.4
+# Base image
+FROM python:3.11-alpine AS builder
 
-COPY . /app/
+# Create a non root user and group
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-RUN apk add --update \
-    python \
-    python-dev \
-    py-pip \
-    build-base \
-  && rm -rf /var/cache/apk/* \
-  && /usr/bin/pip install -r /app/requirements.txt
+# Set the working directory
+WORKDIR /app
+
+# Copy the application files
+COPY requirements.txt /app/
+
+# Change ownership of the application files to the non root user
+RUN chown -R appuser:appgroup /app
+
+# Switch to the non root user
+USER appuser
+
+# Update apk repositories and install necessary packages
+RUN apk update && \
+ apk add --no-cache build-base python3 python3-dev py3-pip && \ 
+ python3 -m venv /app/venv && \ 
+ /app/venv/bin/pip install --no-cache-dir -r /app/requirements.txt
 
 WORKDIR /app/Tiredful-API
 

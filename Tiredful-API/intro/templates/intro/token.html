@@ -81,7 +81,7 @@ $.fn.serializeObject = function()
         var formElements = [];
         for (var p in formDataJSON)
           formElements.push(encodeURIComponent(p) + "=" + encodeURIComponent(formDataJSON[p]));
-        str = formElements.join("&");
+        let str = formElements.join("&");
         $.ajax({
             type: "POST",
             url: "/oauth/token/",
