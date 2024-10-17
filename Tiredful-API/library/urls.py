@@ -9,14 +9,16 @@
 # Copyright (C) 2017-2018 Payatu Software Labs
 # This file is part of Tiredful API application
 
-from django.conf.urls import url
+from django.urls import re_path
 from . import views
+
+app_name = 'library'
 
 urlpatterns = [
 
     # ex: /library/
-    url(r'^$', views.index, name='index'),
+    re_path(r'^$', views.index, name='index'),
 
     # ex: /library/books/<ISBN>
-    url(r'^books/(?P<ISBN>[0-9-A-Za-z]+)/$', views.book_detail, name='books'),
+    re_path(r'^books/(?P<ISBN>[0-9-A-Za-z]+)/$', views.book_detail, name='books'),
 ]

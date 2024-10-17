@@ -19,4 +19,4 @@ class Article(models.Model):
     title = models.CharField(max_length=40)
     content = models.TextField()
     approval_status = models.BooleanField()
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

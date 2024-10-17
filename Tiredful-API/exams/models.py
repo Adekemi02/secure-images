@@ -18,7 +18,7 @@ from django.contrib.auth.models import User
 # Exam scorecard
 class ScoreCard(models.Model):
     exam = models.CharField(max_length=40)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_marks = models.DecimalField(max_digits=5, decimal_places=2)
     score = models.DecimalField(max_digits=5, decimal_places=2)
     attempt_number = models.IntegerField(default=0)

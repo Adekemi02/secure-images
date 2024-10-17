@@ -22,4 +22,4 @@ class Tracker(models.Model):
     calories = models.DecimalField(max_digits=7, decimal_places=2)
     running = models.DecimalField(max_digits=5, decimal_places=2)
     month = models.IntegerField()
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -20,4 +20,4 @@ class Classified(models.Model):
     headline = models.CharField(max_length=150)
     info = models.CharField(max_length=2048, default="")
     price = models.DecimalField(max_digits=7, decimal_places=2)
-    user = models.ForeignKey(User, default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)

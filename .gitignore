@@ -1,2 +1,7 @@
 .env
 *venv/
+*__pycache__
+safety-output.json
+sonar-project.properties
+db.sqlite3
+client_cred.txt

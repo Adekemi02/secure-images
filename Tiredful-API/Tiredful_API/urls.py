@@ -8,7 +8,7 @@
 #
 # Copyright (C) 2017-2018 Payatu Software Labs
 
-from django.conf.urls import url, include
+from django.urls import re_path, include
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
@@ -28,32 +28,32 @@ class GroupSerializer(serializers.ModelSerializer):
 
 urlpatterns = [
     # URL for user login
-    url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    re_path(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
     # URL for including intro app.
-    url(r'', include('intro.urls', namespace="intro")),
+    re_path(r'', include('intro.urls', namespace="intro")),
 
     # URLs for including library app
-    url(API_VERSION, include('library.urls', namespace="library-api")),
-    url(r'^library/', include('library.urls', namespace="library")),
+    re_path(API_VERSION, include('library.urls', namespace="library-api")),
+    re_path(r'^library/', include('library.urls', namespace="library")),
 
     # URLs for including exams app
-    url(API_VERSION, include('exams.urls', namespace="exams-api")),
-    url(r'^exams/', include('exams.urls', namespace="exams")),
+    re_path(API_VERSION, include('exams.urls', namespace="exams-api")),
+    re_path(r'^exams/', include('exams.urls', namespace="exams")),
 
     # URLs for including blog app
-    url(API_VERSION, include('blog.urls', namespace="blog-api")),
-    url(r'^blog/', include('blog.urls', namespace="blog")),
+    re_path(API_VERSION, include('blog.urls', namespace="blog-api")),
+    re_path(r'^blog/', include('blog.urls', namespace="blog")),
 
     # URLs for including trains app
-    url(API_VERSION, include('trains.urls', namespace="trains-api")),
-    url(r'^trains/', include('trains.urls', namespace="trains")),
+    re_path(API_VERSION, include('trains.urls', namespace="trains-api")),
+    re_path(r'^trains/', include('trains.urls', namespace="trains")),
 
     # URLs for including health app
-    url(API_VERSION, include('health.urls', namespace="health-api")),
-    url(r'^health/', include('health.urls', namespace="health")),
+    re_path(API_VERSION, include('health.urls', namespace="health-api")),
+    re_path(r'^health/', include('health.urls', namespace="health")),
 
     # URLs for including advertisements app
-    url(API_VERSION, include('advertisements.urls', namespace="advertisements-api")),
-    url(r'^advertisements/', include('advertisements.urls', namespace="advertisements")),
+    re_path(API_VERSION, include('advertisements.urls', namespace="advertisements-api")),
+    re_path(r'^advertisements/', include('advertisements.urls', namespace="advertisements")),
 ]
