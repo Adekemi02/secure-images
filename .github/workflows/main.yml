@@ -111,6 +111,8 @@ jobs:
 
       - name: Scan Docker image
         run: snyk container test tiredful --json > snyk-container-results.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Save integration output
         uses: actions/upload-artifact@v4
