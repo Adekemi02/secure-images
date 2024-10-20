@@ -13,6 +13,8 @@ jobs:
   build:
     name: Build Python Application
     runs-on: Ubuntu-22.04
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
