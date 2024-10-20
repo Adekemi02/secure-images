@@ -32,6 +32,7 @@ jobs:
           virtualenv venv
           source venv/bin/activate
           pip install -r requirements.txt
+          cd Tiredful-API
           python manage.py check
     
   safety-check:
