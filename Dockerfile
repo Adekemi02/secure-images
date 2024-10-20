@@ -1,15 +1,4 @@
 # Base image
-
-
-
-
-# WORKDIR /app/venv
-
-# EXPOSE 8000
-
-# CMD ["/usr/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-
 FROM python:3.11-alpine AS builder
 
 # Set the working directory

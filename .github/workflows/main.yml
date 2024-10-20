@@ -1,0 +1,113 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: [ "main" ]
+    
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Python Application
+    runs-on: Ubuntu-22.04.5
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip && pip3 install --upgrade virtualenv
+          virtual env
+          source env/bin/activate
+          pip install -r requirements.txt
+          python manage.py check
+    
+  safety-check:
+    name: Run Safety to check for vulnerabilities in dependencies
+    runs-on: Ubuntu-22.04.5
+    needs: build
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Pull safety tool and check for vulnerabilities
+        run: docker run --rm -v $(pwd):/src hysnsec/safety check -r requirements.txt --json > safety-result.json
+
+      - name: Save build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: Safety
+          path: safety-results.json
+        if: always()
+
+  test:
+    name: Run Snyk to check for vulnerabilities in code
+    runs-on: ubuntu-22.04.5
+    needs: safety-check
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Snyk
+        uses: snyk/actions/setup@master
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Run snyk
+        run: snyk code test --json > snyk-results.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    
+      - name: Save test output
+        uses: actions/upload-artifact@v4
+        with:
+          name: Snyk
+          path: snyk-results.json
+        if: always()
+
+  integration:
+    name: Build the Docker image
+    runs-on: ubuntu-22.04.5
+    needs: test
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Build the image
+        run: docker build -t tiredful .
+
+      - name: Scan Docker image
+        run: snyk container test tiredful --json > snyk-container-results.json
+
+      - name: Save integration output
+        uses: actions/upload-artifact@v4
+        with:
+          name: Snyk container
+          path: snyk-container-results.json
+        if: always()
+
+  release:
+    name: Push image to repo
+    runs-on: ubuntu-22.04.5
+    needs: integration
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
