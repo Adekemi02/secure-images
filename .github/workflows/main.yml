@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Pull safety tool and check for vulnerabilities
-        run: docker run --rm -v $(pwd):/src hysnsec/safety check -r requirements.txt --json > safety-result.json
+        run: docker run --rm -v $(pwd):/src hysnsec/safety check -r requirements.txt --json > safety-results.json
 
       - name: Save build output
         uses: actions/upload-artifact@v4

@@ -1,0 +1,20 @@
+{
+  "name": "tiredful-api-master",
+  "version": "1.0.0",
+  "description": "Tiredful API is intentionally designed broken app. The aim of this web app is to teach developers, QA  or security professionals about flaws present in webservices (REST API) due to insecure coding practice.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adekemi02/secure-images.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adekemi02/secure-images/issues"
+  },
+  "homepage": "https://github.com/Adekemi02/secure-images#readme"
+}
