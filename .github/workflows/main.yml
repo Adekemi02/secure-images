@@ -121,16 +121,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push image to Dockerhub
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ env.DOCKER_IMAGE }}
-            ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+        run: | 
+          docker build -t adekhemie/tiredful:latest .
+          docker push adekhemie/tiredful:latest
 
       - name: Scan Docker image
-        run: snyk container test adekhemie/tiredful-api --json > snyk-container-results.json
+        run: snyk container test adekhemie/tiredful-api:latest --json > snyk-container-results.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
