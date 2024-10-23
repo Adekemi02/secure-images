@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tiredful
+  namespace: default
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: tiredful-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tiredful-binding
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: tiredful
+    namespace: default
+roleRef:
+  kind: Role
+  name: tiredful-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tiredful-api-deployment
+  namespace: default
+  labels:
+    app: tiredful-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tiredful-api
+  template:
+    metadata:
+      labels:
+        app: tiredful-api 
+    spec:
+      serviceAccountName: tiredful
+      containers:
+        - name: tiredful-api
+          image: adekhemie/tiredful-api
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+              ephemeral-storage: "2Gi"
+          volumeMounts:
+            - name: ephemeral
+              mountPath: "/tmp"
+      automountServiceAccountToken: false
+      volumes:
+        - name: ephemeral
+          emptyDir: {}        
+   

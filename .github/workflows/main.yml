@@ -18,28 +18,24 @@ jobs:
       DEBUG: ${{ secrets.DEBUG }}
     strategy:
       matrix:
-        python-version: ["3.10", "3.11"]
+        python-version: ["3.11", "3.12"]
 
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip && pip3 install --upgrade virtualenv
-          virtualenv venv
-          source venv/bin/activate
+          python -m pip install --upgrade pip 
           pip install -r requirements.txt
-          cd Tiredful-API
           python manage.py check
     
   safety-check:
-    name: Run Safety to check for vulnerabilities in dependencies
     runs-on: Ubuntu-22.04
     needs: build
     steps:
@@ -55,11 +51,14 @@ jobs:
           name: Safety
           path: safety-results.json
         if: always()
+        continue-on-error: true
 
   test:
-    name: Run Snyk to check for vulnerabilities in code
     runs-on: ubuntu-22.04
     needs: safety-check
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
@@ -67,13 +66,13 @@ jobs:
       - name: Set up Snyk CLI
         uses: snyk/actions/setup@master
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          node-version: "16.x"
+          python-version: ${{ matrix.python-version }}
 
-      - name: Install node modules
-        run: npm install
+      - name: Install Python modules
+        run: pip install -r requirements.txt
 
       - name: Run snyk
         run: snyk code test --json > snyk-results.json
@@ -86,11 +85,15 @@ jobs:
           name: Snyk
           path: snyk-results.json
         if: always()
+        continue-on-error: true
 
   integration:
-    name: Build the Docker image
     runs-on: ubuntu-22.04
     needs: test
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
@@ -98,19 +101,36 @@ jobs:
       - name: Set up Snyk CLI
         uses: snyk/actions/setup@master
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          node-version: "16.x"
+          python-version: ${{ matrix.python-version }}      
 
-      - name: Install node modules
-        run: npm install
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build the image
-        run: docker build -t tiredful .
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: adekhemie/tiredful-api
+
+      - name: Build and push image to Dockerhub
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Scan Docker image
-        run: snyk container test tiredful --json > snyk-container-results.json
+        run: snyk container test --docker adekhemie/tiredful-api --json > snyk-container-results.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
@@ -120,11 +140,27 @@ jobs:
           name: Snyk container
           path: snyk-container-results.json
         if: always()
+        continue-on-error: true
 
-  release:
-    name: Push image to repo
+  deploy:
     runs-on: ubuntu-22.04
     needs: integration
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
+
+      - name: Set up kind and Helm
+        uses: helm/kind-action@v1.4.0
+
+      - name: Create kind Cluster
+        run: kind create cluster --name tiredful-cluster
+
+      - name: Load Docker Image into kind
+        run: |
+          sudo docker pull adekhemie/tiredful-api
+          sudo kind load docker-image adekhemie/tiredful-api:latest --name tiredful-cluster
+
+      - name: Deploy application to KinD
+        run: |
+          kubectl apply -f ./deployment.yml
+          kubectl apply -f ./service.yml
