@@ -134,6 +134,7 @@ jobs:
         run: snyk container test --docker adekhemie/tiredful-api --json > snyk-container-results.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
 
       - name: Save integration output
         uses: actions/upload-artifact@v4
@@ -141,7 +142,6 @@ jobs:
           name: Snyk container
           path: snyk-container-results.json
         if: always()
-        continue-on-error: true
 
   deploy:
     runs-on: ubuntu-22.04
