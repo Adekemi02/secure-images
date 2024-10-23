@@ -122,8 +122,8 @@ jobs:
 
       - name: Build and push image to Dockerhub
         run: | 
-          docker build -t adekhemie/tiredful:latest .
-          docker push adekhemie/tiredful:latest
+          docker build -t adekhemie/tiredful-api:latest .
+          docker push adekhemie/tiredful-api:latest
 
       - name: Scan Docker image
         run: snyk container test adekhemie/tiredful-api:latest --json > snyk-container-results.json
