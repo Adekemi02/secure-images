@@ -93,7 +93,7 @@ jobs:
     needs: test
     strategy:
       matrix:
-        python-version: ["3.11", "3.12"]
+        python-version: ["3.12"]
 
     steps:
       - name: Checkout the repo
@@ -121,6 +121,11 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: adekhemie/tiredful-api
+
+      - name: Log Docker metadata
+        run: |
+          echo "Tags: ${{ steps.meta.outputs.tags }}"
+          echo "Labels: ${{ steps.meta.outputs.labels }}"
 
       - name: Build and push image to Dockerhub
         uses: docker/build-push-action@v4
