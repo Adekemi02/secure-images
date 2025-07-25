@@ -1,5 +1,5 @@
 # Base image
-FROM python:3.11-alpine AS builder
+FROM python:3.14.0rc1-alpine AS builder
 
 # Set the working directory
 WORKDIR /app
